@@ -1,0 +1,37 @@
+#!/usr/bin/env python3.11
+from pathlib import Path
+
+from exceptions import ApiServiceError, CantGetCoordinates
+from coordinates import result
+from weather_api_service import get_weather
+from weather_formatter import format_weather
+
+# If we want to save the history in text format, we use:
+from history_txt import save_weather, PlainFileWeatherStorage
+
+# If we want to save the history in JSON format, we use:
+from history_json import save_weather, JSONFileWeatherStorage
+
+
+def main():
+    try:
+        coordinates = result()
+    except CantGetCoordinates:
+        print('Не удалось получить координаты')
+        exit(1)
+    try:
+        weather = get_weather(coordinates)
+    except ApiServiceError:
+        print(f"Не удалось получить погоду по координатам{coordinates}")
+        exit(1)
+    print(format_weather(weather))
+
+    save_weather(
+        weather,
+        # Here we substitute JSONFileWeatherStorage or PlainFileWeatherStorage as desired
+        PlainFileWeatherStorage(Path.cwd() / "history.txt")
+    )
+
+
+if __name__ == "__main__":
+    main()
