@@ -14,7 +14,7 @@ venv\Scripts\Activate.ps1
 ```
 - #### We cloning the project for ourselves
 ```
-git clone https://github.com/NeMmiddle/Typed_WeatherMap.git
+git clone https://github.com/NeMmiddle/Typed_Weather_Forecast.git
 ```
 - #### Installing dependencies
 ```
